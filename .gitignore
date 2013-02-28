@@ -1,3 +1,6 @@
+#virtualenv
+ve/
+
 #Django
 *.log
 *.pot
