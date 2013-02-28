@@ -1,3 +1,10 @@
+"""
+get.py - 28/02/2013
+
+Retrieves data from DB, and writes queries to stderr
+"""
+
+
 from poly.models import *
 from random import randint
 

@@ -1,3 +1,9 @@
+"""
+fill.py - 28/02/2013
+
+Fills the DB with lots of data
+"""
+
 from poly.models import *
 from random import randint
 
