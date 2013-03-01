@@ -18,6 +18,13 @@ class Node(PolymorphicModel):
         return klass[i:j]
     
     
+    def to_dict(self):
+        res = {'id':self.pk, 'name':self.name, 'children':[], 'type':self.classBasename()}
+        for child in self.children():
+            res['children'].append(child.pk)
+        return res
+    
+    
     def __repr__(self):
         return '<%s:%d "%s">'%(self.classBasename(), self.pk, self.name)
     
@@ -68,6 +75,13 @@ class Category(Node):
     description = models.TextField()
     lastmodif = models.DateTimeField()
     
+    def to_dict(self):
+        res = Node.to_dict(self)
+        res['description'] = self.description
+        res['lastmodif'] = str(self.lastmodif)
+        return res
+    
+    
     def save(self, *args, **kwargs):
         self.lastmodif = datetime.today()
         Node.save(self, *args, **kwargs)
@@ -78,8 +92,23 @@ class Course(Category):
     """Leaf container"""
     teacher = models.EmailField()
     mnemonic = models.CharField(max_length=10)
+    
+    def to_dict(self):
+        res = Category.to_dict(self)
+        res['teacher'] = self.teacher
+        res['mnemomnic'] = self.mnemonic
+        return res
+    
 
 
 class Thread(Node):
     """Discussion"""
     keywords = models.ManyToManyField(Keyword)
+    
+    def to_dict(self):
+        res = Node.to_dict(self)
+        res['keywords'] = []
+        for kw in self.keywords.all():
+            res['keywords'].append(kw.to_dict())
+        return res
+    

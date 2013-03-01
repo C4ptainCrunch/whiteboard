@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>The P402 Graph browser</title>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+		<style type="text/css">
+		#path>li{display: inline; padding-left: 10px;}
+		#meta{border: solid 2px #333; border-radius: 5px; width: 50%; padding: 10px;}
+		th{text-align: right;}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+		var rootnode = 1;
+		
+		var noderef_clicked = function(event){
+			var nodeid = event.target.getAttribute('data-id');
+			getnode(nodeid);
+		};
+		
+		var path_clicked = function(event){
+			var dataid = event.target.getAttribute('data-id');
+			var selection = $(event.target.parentNode).nextAll().addBack();
+			selection.remove();
+			getnode(dataid);
+		};
+		
+		var getnode = function(nodeid){
+			$.getJSON('/graph/'+nodeid, function(data){
+				/* Build path */
+				$('#path').append('<li><a href="#" class="noderef" data-id="'+data['id']+'">'+data['name']+'</li>');
+				$('#path .noderef[data-id='+data['id']+']').click(path_clicked);
+				
+				/* Build title */
+				$('#title').empty();
+				$('#title').append(data['name']);
+				
+				/* Build children list */
+				$('#children>ul').empty();
+				if (data['children'].length>0){
+					$.getJSON('/graph/names/'+data['children'].join('-'), function(data2){
+						for (i in data2['nodes']){
+							node = data2['nodes'][i];
+							$('#children>ul').append('<li><a href="#" class="noderef" data-id="'+node['id']+'">'+node['name']+'</li>');
+						}
+						$('#children .noderef').click(noderef_clicked);
+					});
+				}
+				
+				/* Build meta info table */
+				$('#meta>table').empty();
+				for (key in data){
+					if (key != 'name')
+						$('#meta>table').append('<tr><th>'+key+'</th><td>'+data[key]+'</td></tr>');
+				}
+			});
+		};
+		
+		$(document).ready(function(){
+			getnode(1);
+		});
+		</script>
+		<ul id="path"></ul>
+		<h1 id="title"></h1>
+		<h3>Infos</h3>
+		<div id="meta"><table></table></div>
+		<h3>Children</h3>
+		<div id="children"><ul></ul></div>
+		<hr/>
+		<div id="footer">
+			The <strong>P402 Graph Browser</strong>
+		</div>
+	</body>
+</html>

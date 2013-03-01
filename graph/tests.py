@@ -42,3 +42,4 @@ class SimpleTest(TestCase):
         
         self.assertIn(ba1p, prog.ancestors(), 'INFO-F-101 for polytech')
         self.assertIn(ba1i, prog.ancestors(), 'INFO-F-101 for comp. sc.')
+    
