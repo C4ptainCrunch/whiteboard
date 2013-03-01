@@ -6,7 +6,8 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     (r'keywords/', include('keywords.urls')),
-    (r'graph/', include('graph.urls'))
+    (r'graph/', include('graph.urls')),
+    (r'^$', 'whiteboard.views.redir2graph')
     # Examples:
     # url(r'^$', 'whiteboard.views.home', name='home'),
     # url(r'^whiteboard/', include('whiteboard.foo.urls')),
