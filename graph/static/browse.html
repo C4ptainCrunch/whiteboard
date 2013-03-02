@@ -6,20 +6,40 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
 		<style type="text/css">
-		#path>li{display: inline; padding-left: 10px;}
-		#meta{border: solid 2px #333; border-radius: 5px; width: 50%; padding: 10px;}
-		th{text-align: right;}
+		#path>li{display:inline; padding-left:10px;}
+		#meta{border:solid 2px #333; border-radius:5px; width:50%; padding:10px;}
+		#meta th{text-align:right;}
+		#title{padding-left:33px; background-repeat:no-repeat; background-size:30px 30px; background-position:left;}
+		.dropdown{border:solid 1px; padding:5px; border-radius:10px; background-color:#FFC;}
+		.noderef{padding-left:22px; background-repeat:no-repeat; background-size:20px 20px; background-position:left;}
+		.category{background-image:url(ico/category.png);}
+		.thread{background-image:url(ico/thread.png);}
+		.course{background-image:url(ico/course.png);}
 		</style>
 	</head>
 	<body>
 		<script type="text/javascript">
 		var rootnode = 1;
 		
+		/* Create a reference to a node */
+		var mknoderef = function(node){
+			var klass = 'noderef';
+			if ('type' in node) klass += ' '+node['type'].toLowerCase();
+			return '<a href="#" class="'+klass+'" data-id="'+node['id']+'">'+node['name']+'</a>';
+		};
+		
+		/* Callback for noderefs clicks */
 		var noderef_clicked = function(event){
 			var nodeid = event.target.getAttribute('data-id');
 			getnode(nodeid);
 		};
 		
+		/* Bind events to noderef from given DOM node (JQuery selector) */
+		var activate_noderefs = function(from_dom){
+			$(from_dom).find('.noderef').click(noderef_clicked);
+		};
+		
+		/* Walk back in graph path */
 		var path_clicked = function(event){
 			var dataid = event.target.getAttribute('data-id');
 			var selection = $(event.target.parentNode).nextAll().addBack();
@@ -27,21 +47,32 @@
 			getnode(dataid);
 		};
 		
+		/* Display a dropdown for clicked keyword */
 		var kwref_clicked = function(event){
 			var kwid = event.target.getAttribute('data-id');
-			$.get('/keywords/'+kwid+'/related', function(data){
-				alert(data);
-			})
+			$.getJSON('/keywords/'+kwid+'/related', function(data){
+				var boxcontent = '';
+				for (i in data['nodes']){
+					node = data['nodes'][i];
+					boxcontent += '<li>'+mknoderef(node)+'</li>';
+				}
+				$(event.target).after('<div class="dropdown"><ul>'+boxcontent+'</ul></div>');
+				activate_noderefs($(event.target).next());
+			}).error(function(xhr){
+				alert(xhr.responseText);
+			});
 		};
 		
+		/* Main browsing function */
 		var getnode = function(nodeid){
 			$.getJSON('/graph/'+nodeid, function(data){
 				/* Build path */
-				$('#path').append('<li><a href="#" class="noderef" data-id="'+data['id']+'">'+data['name']+'</li>');
+				$('#path').append('<li>'+mknoderef(data)+'</li>');
 				$('#path .noderef[data-id='+data['id']+']').click(path_clicked);
 				
 				/* Build title */
 				$('#title').empty();
+				$('#title').removeClass().addClass(data['type'].toLowerCase());
 				$('#title').append(data['name']);
 				
 				/* Build children list */
@@ -50,9 +81,9 @@
 					$.getJSON('/graph/names/'+data['children'].join('-'), function(data2){
 						for (i in data2['nodes']){
 							node = data2['nodes'][i];
-							$('#children>ul').append('<li><a href="#" class="noderef" data-id="'+node['id']+'">'+node['name']+'</li>');
+							$('#children>ul').append('<li>'+mknoderef(node)+'</li>');
 						}
-						$('#children .noderef').click(noderef_clicked);
+						activate_noderefs('#children>ul');
 					});
 				}
 				
@@ -80,6 +111,7 @@
 			});
 		};
 		
+		/* On load get root */
 		$(document).ready(function(){
 			getnode(1);
 		});
