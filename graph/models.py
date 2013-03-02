@@ -19,10 +19,17 @@ class Node(PolymorphicModel):
     
     
     def to_dict(self):
-        res = {'id':self.pk, 'name':self.name, 'children':[], 'type':self.classBasename()}
+        """Return self as a dict. Should be overridden in subclasses !"""
+        res = self.short_dict()
+        res['children'] = []
         for child in self.children():
-            res['children'].append(child.pk)
+            res['children'].append(child.short_dict())
         return res
+    
+    
+    def short_dict(self):
+        """Return self as a short dict with just identity informations"""
+        return {'id':self.pk, 'name':str(self.name), 'type':self.classBasename()}
     
     
     def __repr__(self):

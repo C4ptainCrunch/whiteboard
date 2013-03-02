@@ -1,9 +1,12 @@
 # Django settings for whiteboard project.
 
+import os
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
+    ('Titou', 'titouanchrsitophe@gmail.com'),
     # ('Your Name', 'your_email@example.com'),
 )
 
@@ -147,6 +150,11 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'logfilesql': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'sql.log'
         }
     },
     'loggers': {
@@ -155,5 +163,9 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'django.db.backends' : {
+            'level': 'DEBUG',
+            'handlers': ['logfilesql']
+        }
     }
 }

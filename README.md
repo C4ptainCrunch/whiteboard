@@ -19,3 +19,4 @@ Commit tags
 	* [enh] Enhancement (new small functionalities, code refactoring, ...)
 	* [add] New parts in project (new big functionalities, new subapp, ...)
 	* [dev] Development tools
+	* [fat] Fat commit, many changes

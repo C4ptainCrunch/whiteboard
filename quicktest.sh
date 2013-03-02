@@ -2,4 +2,4 @@
 
 set -v
 
-rm -f db.sql && ./manage.py syncdb && ./manage.py populate && ./manage.py runserver
+rm -f db.sql sql.log && ./manage.py syncdb && ./manage.py populate && ./manage.py runserver
