@@ -9,6 +9,7 @@ def KW(name):
 
 
 class Command(BaseCommand):
+    help = """Fills database with realistic data"""
     def handle(self, *args, **options):
         toplevel = cat(name="P402", description="P402::Whiteboard")
         
