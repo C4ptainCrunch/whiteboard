@@ -7,3 +7,9 @@ import json
 def node(req, nodeid):
     node = get_object_or_404(Node, pk=nodeid)
     return HttpResponse(json.dumps(node.to_dict()))
+
+
+def short(req, nodeid):
+    node = get_object_or_404(Node, pk=nodeid)
+    return HttpResponse(json.dumps(node.short_dict()))
+
