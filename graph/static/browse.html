@@ -27,6 +27,13 @@
 			getnode(dataid);
 		};
 		
+		var kwref_clicked = function(event){
+			var kwid = event.target.getAttribute('data-id');
+			$.get('/keywords/'+kwid+'/related', function(data){
+				alert(data);
+			})
+		};
+		
 		var getnode = function(nodeid){
 			$.getJSON('/graph/'+nodeid, function(data){
 				/* Build path */
@@ -51,10 +58,25 @@
 				
 				/* Build meta info table */
 				$('#meta>table').empty();
+				var value;
 				for (key in data){
-					if (key != 'name')
-						$('#meta>table').append('<tr><th>'+key+'</th><td>'+data[key]+'</td></tr>');
+					value = data[key]
+					if (key != 'name'){
+						/* Handle keyword expansion */
+						if (key == 'keywords'){
+							var str = '';
+							var kw;
+							for (kwi in value){
+								kw = value[kwi];
+								if (kwi>0) str += ', ';
+								str += '<a href="#" class="kwref" data-id="'+kw['id']+'">'+kw['name']+'</a>';
+							}
+							value = str
+						}
+						$('#meta>table').append('<tr><th>'+key+'</th><td>'+value+'</td></tr>');
+					}
 				}
+				$('#meta>table .kwref').click(kwref_clicked);
 			});
 		};
 		

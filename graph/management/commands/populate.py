@@ -1,8 +1,12 @@
 from graph.models import Node, Category, Course, Thread
+from keywords.models import Keyword
 from django.core.management.base import BaseCommand
 
 cat = Category.objects.create
-course = Course.objects.create
+def KW(name):
+    existing, created = Keyword.objects.get_or_create(name=name.lower())
+    return existing if existing else created
+
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -35,7 +39,7 @@ class Command(BaseCommand):
         math.attach(cat(name="MA1 Sc. Math", description="Master 1 en Sciences Mathematiques"))
         math.attach(cat(name="MA2 Sc. Math", description="Master 2 en Sciences Mathematiques"))
         ba1matopt = cat(name="Options", description="Cours aux choix")
-        ba1math.attach(ba1infopt)
+        ba1math.attach(ba1matopt)
         
         ### Polytechnic school
         polytek = cat(name="Polytech", description="Ecole polytechnique de Bruxelles")
@@ -81,5 +85,13 @@ class Command(BaseCommand):
         ba1infopt.attach(mathf111)
         ba1math.attach(mathf111)
         
+        ### Threads
+        discussion = Thread.objects.create(name="[Projet] Priorite des pipelines")
+        for kw in [KW('projet'), KW('pipeline'), KW('multivac')]:
+            discussion.keywords.add(kw)
+        infof102.attach(discussion)
         
+        discussion = Thread.objects.create(name="[Projet 2] Quand faire avancer les voitures sur l'autoroute ?")
+        discussion.keywords.add(KW('projet'))
+        infof101.attach(discussion)
     

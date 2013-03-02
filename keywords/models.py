@@ -6,3 +6,7 @@ class Keyword(models.Model):
     in the site's graph, but semantically close.
     """
     name = models.CharField(max_length=50)
+    
+    def to_dict(self):
+        return {'id':self.pk, 'name':str(self.name)}
+    
