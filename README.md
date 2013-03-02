@@ -7,9 +7,15 @@ Installation
 	source ve/bin/activate
 	pip install -r requirements.txt
 	chmod +x ./manage.py
-	./manage.py syncdb
 
-Run
-===
+Run in development
+==================
 
-	./manage.py runserver
+	./quicktest.sh
+
+Commit tags
+===========
+	* [fix] Bug fix
+	* [enh] Enhancement (new small functionalities, code refactoring, ...)
+	* [add] New parts in project (new big functionalities, new subapp, ...)
+	* [dev] Development tools
