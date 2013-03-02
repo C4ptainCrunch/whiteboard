@@ -108,8 +108,8 @@ class Course(Category):
 
 
 
-class Thread(Node):
-    """Discussion"""
+class Taggable(Node):
+    """An abstract taggable node. Taggable nodes have keywords."""
     keywords = models.ManyToManyField(Keyword)
 
     def to_dict(self):
@@ -118,4 +118,8 @@ class Thread(Node):
         for kw in self.keywords.all():
             res['keywords'].append(kw.to_dict())
         return res
+
+class Thread(Taggable):
+    """Discussion"""
+    pass
 

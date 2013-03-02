@@ -8,6 +8,6 @@ def related(request, kwid):
     """Return Graph Nodes id's and names related to this keyword"""
     keyword = get_object_or_404(Keyword, pk=kwid)
     res = []
-    for thread in keyword.thread_set.all():
-        res.append(thread.short_dict())
+    for tagged in keyword.taggable_set.all():
+        res.append(tagged.short_dict())
     return HttpResponse(json.dumps({'nodes':res}))
