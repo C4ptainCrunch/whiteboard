@@ -81,18 +81,17 @@ class Category(Node):
     """Node container"""
     description = models.TextField()
     lastmodif = models.DateTimeField(auto_now=True)
-
+    
     def to_dict(self):
         res = Node.to_dict(self)
         res['description'] = self.description
         res['lastmodif'] = str(self.lastmodif)
         return res
-
-
+    
     def save(self, *args, **kwargs):
         self.lastmodif = datetime.today()
         Node.save(self, *args, **kwargs)
-
+    
 
 
 class Course(Category):
@@ -118,8 +117,4 @@ class Taggable(Node):
         for kw in self.keywords.all():
             res['keywords'].append(kw.to_dict())
         return res
-
-class Thread(Taggable):
-    """Discussion"""
-    pass
 
