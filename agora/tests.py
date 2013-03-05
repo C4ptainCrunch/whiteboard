@@ -6,11 +6,11 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+from agora.models import Thread
 
+T = Thread.objects.create
 
 class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+    def test_attach(self):
+        t = T(name="Thread Parent")
+        self.assertRaises(Thread.CannotHaveChildren, t.attach(T(name="Thread enfant")))

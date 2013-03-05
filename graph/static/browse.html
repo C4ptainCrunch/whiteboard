@@ -50,7 +50,7 @@
 		/* Display a dropdown for clicked keyword */
 		var kwref_clicked = function(event){
 			var kwid = event.target.getAttribute('data-id');
-			$.getJSON('/keywords/'+kwid+'/related', function(data){
+			$.getJSON('/keywords/'+kwid+'/related.json', function(data){
 				var boxcontent = '';
 				for (i in data['nodes']){
 					node = data['nodes'][i];
@@ -65,7 +65,7 @@
 		
 		/* Main browsing function */
 		var getnode = function(nodeid){
-			$.getJSON('/graph/'+nodeid, function(data){
+			$.getJSON('/graph/'+nodeid+'.json', function(data){
 				/* Build path */
 				$('#path').append('<li>'+mknoderef(data)+'</li>');
 				$('#path .noderef[data-id='+data['id']+']').click(path_clicked);

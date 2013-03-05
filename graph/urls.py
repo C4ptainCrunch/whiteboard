@@ -3,5 +3,5 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = patterns('',
     (r'^(\d+)/?$', 'graph.views.node'),
-    (r'^(\d+)/short/?$', 'graph.views.short')
+    (r'^(\d+)/short/?$', 'graph.views.short'),
 ) + staticfiles_urlpatterns()
