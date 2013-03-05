@@ -108,6 +108,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'whiteboard.urls'
 
+
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'whiteboard.wsgi.application'
 
@@ -130,8 +131,11 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'poly',
     'keywords',
-    'graph'
+    'graph',
+    'users'
 )
+
+AUTH_USER_MODEL = 'users.User'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
