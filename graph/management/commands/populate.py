@@ -92,8 +92,8 @@ class Command(BaseCommand):
         for kw in [KW('projet'), KW('pipeline'), KW('multivac')]:
             discussion.keywords.add(kw)
         infof102.attach(discussion)
-        Message.reply(discussion, "Dans mon algorithme, je fais avancer les pipelines un par un separement. Dois-je respecter un ordre particulier ?")
-        Message.reply(discussion, "A toi de voir selon ton algorithme")
+        discussion.reply(text="Dans mon algorithme, je fais avancer les pipelines un par un separement. Dois-je respecter un ordre particulier ?")
+        discussion.reply(text="A toi de voir selon ton algorithme")
         
         discussion = Thread.objects.create(name="[Projet 2] Quand faire avancer les voitures sur l'autoroute ?")
         discussion.keywords.add(KW('projet'))

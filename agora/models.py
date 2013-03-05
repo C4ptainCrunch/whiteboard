@@ -4,23 +4,29 @@ from datetime import datetime
 
 class Thread(Taggable):
     """Discussion"""
-    pass
+    class CannotHaveChildren(Exception):
+        def __init__(self):
+            Exception.__init__(self, 'For now, Thread objects could only be leafs in the graph')
+        
+    
+    def attach(self, other):
+        raise self.CannotHaveChildren
+    
+    
+    def reply(self, **kwargs):
+        """Automatically replies to a Thread"""
+        kwargs['index'] = Message.objects.filter(thread=self).count()
+        kwargs['thread'] = self
+        kwargs['posted'] = datetime.today()
+        msg = Message.objects.create(**kwargs)
+        msg.save()
+
 
 class Message(models.Model):
     thread = models.ForeignKey(Thread)
     index = models.IntegerField()
     posted = models.DateTimeField(auto_now=True)
     text = models.TextField()
-    
-    def reply(klass, thread, text):
-        msg = klass()
-        msg.thread = thread
-        msg.posted = datetime.today()
-        msg.text = text
-        msg.index = klass.objects.filter(thread=thread).count()
-        msg.save()
-    
-    reply = classmethod(reply)
     
     def to_dict(self):
         return {'index':self.index, 'posted':str(self.posted), 'text':str(self.text)}
