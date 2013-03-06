@@ -1,10 +1,12 @@
+from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser
 
-class User(models.Model):
+class User(AbstractBaseUser):
     netid = models.CharField(max_length=20,unique=True)
-    last_name = models.CharField(max_length=100)
-    first_name = models.CharField(max_length=100)
-    email = models.EmailField()
+#    last_name = models.CharField(max_length=100)
+#    first_name = models.CharField(max_length=100)
+#    email = models.EmailField()
     comment = models.CharField(null=True,max_length=1000)
     xml = models.CharField(max_length=10000)
     birth = models.DateField()
@@ -13,7 +15,7 @@ class User(models.Model):
 
 class UserIdentity(models.Model):
     matricule = models.CharField(max_length=50)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     class Meta:
         unique_together = ("matricule", "user")

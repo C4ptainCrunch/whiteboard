@@ -1,5 +1,5 @@
 from users.models import User,UserIdentity,UserCategory,UserInscription
-from bs4 import BeautifulSoup
+from BeautifulSoup import BeautifulSoup
 import urllib2
 from django.http import HttpResponse, HttpResponseRedirect
 from dateutil.parser import *
@@ -22,9 +22,9 @@ def intraAuth(request):
         # return response
         try:
             values = parseXml(xml)
-            user = createUser(**values)
+            user = create_user(**values)
         except:
-            raise Exception("problems while parsing xml")
+            raise
         login(request, user)
         return HttpResponseRedirect('/')
 
@@ -35,7 +35,7 @@ def intraAuth(request):
 def login(request):
     return HttpResponseRedirect('https://www.ulb.ac.be/commons/intranet?_prt=ulb:facultes:sciences:p402&_ssl=on&_appl=http://'+request.META['HTTP_HOST']+'/user/auth&_prtm=redirect')
 
-def createUser(netid, last_name, first_name, email, xml, birth, identites):
+def create_user(netid, last_name, first_name, email, xml, birth, identites):
     try:
         user = User.objects.get(netid=netid)
     except:
@@ -54,7 +54,7 @@ def createUser(netid, last_name, first_name, email, xml, birth, identites):
 
 def parseXml(xml):
     soup = BeautifulSoup(xml)
-    if soup.intranet.session.user['access'] == 'yes':
+    if not soup.intranet.session.user['access'] == 'yes':
         raise Exception("No access !")
     netid = soup.intranet.session.username.text
     last_name = soup.intranet.session.user.nom.text

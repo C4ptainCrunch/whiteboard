@@ -1,5 +1,5 @@
 Django==1.5
 django_polymorphic
 pytz
-beautifulsoup4
 dateutils
+beautifulsoup4
