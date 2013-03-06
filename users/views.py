@@ -33,7 +33,7 @@ def intraAuth(request):
         from django.http import HttpResponse
         return HttpResponse('Missing params',status=418)
 
-def login(request):
+def user_login(request):
     return HttpResponseRedirect('https://www.ulb.ac.be/commons/intranet?_prt=ulb:facultes:sciences:p402&_ssl=on&_appl=http://'+request.META['HTTP_HOST']+'/user/auth&_prtm=redirect')
 
 def create_user(netid, last_name, first_name, email, xml, birth, identites):
