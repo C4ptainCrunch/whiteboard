@@ -39,7 +39,9 @@ def create_user(netid, last_name, first_name, email, xml, birth, identites):
     try:
         user = User.objects.get(netid=netid)
     except:
-        user = User.objects.create_user(netid,email)
+        user = User()
+        user.netid = netid
+        user.email = email
         user.last_name = last_name
         user.first_name = last_name
         user.birth = birth
