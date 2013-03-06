@@ -1,6 +1,8 @@
-from graph.models import Node, Category, Course
+from graph.models import Category
 from keywords.models import Keyword
-from agora.models import Thread, Message
+from agora.models import Thread
+from course.models import Course
+
 from django.core.management.base import BaseCommand
 
 cat = Category.objects.create

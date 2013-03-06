@@ -1,15 +1,13 @@
-from graph.models import Node, Category, Course
-from agora.models import Thread
-from keywords.models import Keyword
+from graph.models import Node
 from django.core.management.base import BaseCommand
 from optparse import make_option
 
 class Command(BaseCommand):
     COLORS = {
-        Node : 'grey',
-        Category: 'lightblue',
-        Course: 'gold',
-        Thread: 'coral'
+        'Node' : 'grey',
+        'Category': 'lightblue',
+        'Course': 'gold',
+        'Thread': 'coral'
     }
     
     help = """
@@ -32,7 +30,7 @@ class Command(BaseCommand):
         f = self.stdout
         f.write('digraph P402 {\n')
         for node in Node.objects.all():
-            color = self.COLORS.get(type(node), 'black')
+            color = self.COLORS.get(node.classBasename(), 'black')
             url = options['urlprefix'] + '/graph/%d'%(node.pk)
             f.write('\t%d [style=filled label="%s" fillcolor=%s URL="%s"]\n'%(node.pk, str(node.name), color, url))
             for child in node.children():

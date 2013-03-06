@@ -128,9 +128,11 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'whiteboard',
     'keywords',
     'graph',
-    'agora'
+    'agora',
+    'course'
 )
 
 # A sample logging configuration. The only tangible logging
