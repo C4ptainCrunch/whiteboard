@@ -62,7 +62,12 @@ def create_user(netid, last_name, first_name, email, xml, birth, identites):
         user = User()
         user.netid = netid
         user.email = email
-        user.last_name = last_name
+
+        if last_name.isupper():
+            user.last_name = last_name.title()
+        else:
+            user.last_name = last_name
+
         user.first_name = first_name
         user.birth = birth
         user.set_unusable_password()
