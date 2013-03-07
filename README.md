@@ -13,6 +13,14 @@ Run in development
 
 	./quicktest.sh
 
+Create a user without using the netid api
+=========================================
+
+	./manage.py useradd
+
+Then login (or switch user) on `http://127.0.0.1:8000/user/su/username`
+
+
 Commit tags
 ===========
 	* [fix] Bug fix
