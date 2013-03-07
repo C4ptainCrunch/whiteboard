@@ -1,0 +1,6 @@
+.course{'data-id': '{{course.pk}}'}
+    .name= course.name
+    .mnemonic= course.mnemonic
+    .teacher
+        %a{'href': 'mailto:{{course.teacher}}'}= course.teacher
+    .description= course.description

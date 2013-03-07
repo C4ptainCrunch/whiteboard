@@ -6,7 +6,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Titou', 'titouanchrsitophe@gmail.com'),
+    ('Titou', 'titouanchristophe@gmail.com'),
     ('Nikita', 'nikita.marchant@gmail.com'),
     # ('Your Name', 'your_email@example.com'),
 )
@@ -91,6 +91,8 @@ SECRET_KEY = '2etw4hdqlnhf)fbvow^@gt6i_4gyzbz7oioei_xkk$w#=!ub7j'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
+    'hamlpy.template.loaders.HamlPyFilesystemLoader',
+    'hamlpy.template.loaders.HamlPyAppDirectoriesLoader',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
@@ -125,14 +127,17 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'haml',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'poly',
+    'whiteboard',
     'keywords',
     'graph',
     'users'
+    'agora',
+    'course'
 )
 
 AUTH_USER_MODEL = 'users.User'

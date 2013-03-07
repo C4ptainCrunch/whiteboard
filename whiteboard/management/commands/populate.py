@@ -1,5 +1,8 @@
-from graph.models import Node, Category, Course, Thread
+from graph.models import Category
 from keywords.models import Keyword
+from agora.models import Thread
+from course.models import Course
+
 from django.core.management.base import BaseCommand
 
 cat = Category.objects.create
@@ -91,6 +94,8 @@ class Command(BaseCommand):
         for kw in [KW('projet'), KW('pipeline'), KW('multivac')]:
             discussion.keywords.add(kw)
         infof102.attach(discussion)
+        discussion.reply(text="Dans mon algorithme, je fais avancer les pipelines un par un separement. Dois-je respecter un ordre particulier ?")
+        discussion.reply(text="A toi de voir selon ton algorithme")
         
         discussion = Thread.objects.create(name="[Projet 2] Quand faire avancer les voitures sur l'autoroute ?")
         discussion.keywords.add(KW('projet'))

@@ -3,3 +3,5 @@ django_polymorphic
 pytz
 dateutils
 beautifulsoup4
+Hamlpy
+# django-haml
