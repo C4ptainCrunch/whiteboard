@@ -41,12 +41,11 @@ def intraAuth(request):
         from django.http import HttpResponse
         return HttpResponse('Missing params',status=418)
 
-def admin_auth(request):
-    netid = request.GET.get("user", False)
+def admin_auth(request,netid):
     user = get_object_or_404(User,netid=netid)
     user.backend = 'django.contrib.auth.backends.ModelBackend'
     login(request,user)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('/user')
 
 def user_login(request):
     return HttpResponseRedirect('https://www.ulb.ac.be/commons/intranet?_prt=ulb:facultes:sciences:p402&_ssl=on&_appl=http://'+request.META['HTTP_HOST']+'/user/auth&_prtm=redirect')
