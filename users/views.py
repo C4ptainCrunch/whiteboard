@@ -1,9 +1,10 @@
 from users.models import User,UserIdentity,UserCategory,UserInscription
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 import urllib2
 from django.http import HttpResponse, HttpResponseRedirect
 from dateutil.parser import *
 from django.contrib.auth import authenticate, login
+from django.shortcuts import get_object_or_404
 
 def intraAuth(request):
     sid, uid = request.GET.get("_sid", False), request.GET.get("_uid", False)
@@ -33,6 +34,11 @@ def intraAuth(request):
         from django.http import HttpResponse
         return HttpResponse('Missing params',status=418)
 
+def admin_auth(request):
+    netid = request.GET.get("user", False)
+    user = get_object_or_404(User,netid=netid)
+    login(request,user)
+
 def login(request):
     return HttpResponseRedirect('https://www.ulb.ac.be/commons/intranet?_prt=ulb:facultes:sciences:p402&_ssl=on&_appl=http://'+request.META['HTTP_HOST']+'/user/auth&_prtm=redirect')
 
@@ -44,7 +50,7 @@ def create_user(netid, last_name, first_name, email, xml, birth, identites):
         user.netid = netid
         user.email = email
         user.last_name = last_name
-        user.first_name = last_name
+        user.first_name = first_name
         user.birth = birth
         user.set_unusable_password()
         # for identite in identites:
