@@ -38,8 +38,9 @@ def intraAuth(request):
             user = create_user(**values)
         except:
             raise
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(request, user)
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/user')
 
     else:
         from django.http import HttpResponse
