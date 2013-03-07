@@ -1,0 +1,8 @@
+.thread{'data-id': '{{thread.pk}}'}
+    .subject= thread.name
+    .keywords
+        - for kw in keywords
+            %a.kwref{'href': '/keywords/{{kw.pk}}'}
+    .content
+        - for message in message_list
+            {% include "message.haml" %}

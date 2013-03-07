@@ -1,15 +1,18 @@
 from agora.models import Message, Thread
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
+from django.template import Context, loader
 import json
-
-def renderHTML(thread):
-    raise NotImplemented()
 
 
 def response(format, thread):
-    if format.lower() == 'html':
-        return HttpResponse(renderHTML(thread), content_type="text/html")
+    if format and format.lower() == 'html':
+        template = loader.get_template('thread.haml')
+        return HttpResponse(template.render(Context({
+            'thread':thread, 
+            'keywords': thread.keywords.all(), 
+            'message_list':thread.message_set.all().order_by('index')
+        })))
     else:
         obj = {
             'id' : thread.pk,
@@ -34,8 +37,8 @@ def thread(req, nodeid, format):
         ]
     }
     """
+    if not format or len(format)==0:
+        format = 'json' if req.is_ajax() else 'html'
     thread = get_object_or_404(Thread, pk=nodeid)
     return response(format, thread)
-    #res = [msg.to_dict() for msg in Message.objects.filter(thread=thread)]
-    #return HttpResponse(json.dumps({'messages':res, 'node':thread.short_dict()}), content_type="application/json")
 

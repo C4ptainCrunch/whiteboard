@@ -30,19 +30,19 @@ class Command(BaseCommand):
         f = self.stdout
         f.write('digraph P402 {\n')
         for node in Node.objects.all():
-            color = self.COLORS.get(node.classBasename(), 'black')
-            url = options['urlprefix'] + '/graph/%d'%(node.pk)
+            color = self.COLORS.get(node.classBasename(), self.COLORS['Node'])
+            url = node.canonic_url() #options['urlprefix'] + '/graph/%d'%(node.pk)
             f.write('\t%d [style=filled label="%s" fillcolor=%s URL="%s"]\n'%(node.pk, str(node.name), color, url))
             for child in node.children():
                 f.write('\t%d -> %d;\n'%(node.pk, child.id))
         
         #Color legend
         f.write('edge [style=invis];\n')
-        for klass in self.COLORS:
-            f.write('\t"%s" [style=filled,fillcolor=%s,shape=box,margin="0,0",width=1,height=0.5,arrow=none]'%(klass().classBasename(), self.COLORS[klass]))
+        for className in self.COLORS:
+            f.write('\t"%s" [style=filled,fillcolor=%s,shape=box,margin="0,0",width=1,height=0.5,arrow=none]'%(className, self.COLORS[className]))
         i = 0
-        for klass in self.COLORS:
+        for className in self.COLORS:
             if i>0: f.write(' -> ')
-            f.write('"'+klass().classBasename()+'"')
+            f.write('"'+className+'"')
             i += 1
         f.write('}\n')

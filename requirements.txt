@@ -2,4 +2,4 @@ Django==1.5
 django_polymorphic
 pytz
 Hamlpy
-django-haml
+# django-haml

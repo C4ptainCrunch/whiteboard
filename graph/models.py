@@ -18,18 +18,18 @@ class Node(PolymorphicModel):
         return klass[i:j]
     
     
-    def to_dict(self):
-        """Return self as a dict. Should be overridden in subclasses !"""
-        res = self.short_dict()
-        res['children'] = []
-        for child in self.children():
-            res['children'].append(child.short_dict())
+    def canonic_url(self):
+        return '/'+self.classBasename().lower()+'/'+str(self.pk)
+    
+    
+    def to_dict(self, with_children=False):
+        res = {'id':self.pk, 'name':str(self.name), 'type':self.classBasename()}
+        res['url'] = self.canonic_url()
+        if with_children:
+            res['children'] = []
+            for child in self.children():
+                res['children'].append(child.to_dict(False))
         return res
-    
-    
-    def short_dict(self):
-        """Return self as a short dict with just identity informations"""
-        return {'id':self.pk, 'name':str(self.name), 'type':self.classBasename()}
     
     
     def __repr__(self):
@@ -81,13 +81,6 @@ class Category(Node):
     description = models.TextField()
     lastmodif = models.DateTimeField(auto_now=True)
     
-    def to_dict(self):
-        res = Node.to_dict(self)
-        res['description'] = self.description
-        res['lastmodif'] = str(self.lastmodif)
-        return res
-    
-    
     def save(self, *args, **kwargs):
         self.lastmodif = datetime.today()
         Node.save(self, *args, **kwargs)
@@ -97,11 +90,4 @@ class Category(Node):
 class Taggable(Node):
     """An abstract taggable node. Taggable nodes have keywords."""
     keywords = models.ManyToManyField(Keyword)
-    
-    def to_dict(self):
-        res = Node.to_dict(self)
-        res['keywords'] = []
-        for kw in self.keywords.all():
-            res['keywords'].append(kw.to_dict())
-        return res
     
