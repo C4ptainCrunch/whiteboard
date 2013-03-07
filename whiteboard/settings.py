@@ -136,6 +136,7 @@ INSTALLED_APPS = (
 )
 
 AUTH_USER_MODEL = 'users.User'
+LOGIN_URL = '/user/login'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

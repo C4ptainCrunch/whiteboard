@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import urllib2
 from django.http import HttpResponse, HttpResponseRedirect
 from dateutil.parser import *
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 import json
@@ -12,6 +12,10 @@ import json
 @login_required
 def profile(request):
     return HttpResponse(json.dumps(request.user.to_dict()), content_type="application/json")
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/')
 
 def intraAuth(request):
     sid, uid = request.GET.get("_sid", False), request.GET.get("_uid", False)
