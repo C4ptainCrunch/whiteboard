@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import UserManager
 
 class User(AbstractBaseUser):
     netid = models.CharField(max_length=20,unique=True)
@@ -12,6 +13,12 @@ class User(AbstractBaseUser):
     birth = models.DateField()
     USERNAME_FIELD = 'netid'
     REQUIRED_FIELDS = ('last_name','first_name','email')
+    objects = UserManager()
+
+    def to_dict(self):
+        """Return self as a dict."""
+        res = {'netid':self.netid}
+        return res
 
 class UserIdentity(models.Model):
     matricule = models.CharField(max_length=50)

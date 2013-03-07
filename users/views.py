@@ -5,6 +5,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from dateutil.parser import *
 from django.contrib.auth import authenticate, login
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+import json
+
+
+@login_required
+def profile(request):
+    return HttpResponse(json.dumps(request.user.to_dict()), content_type="application/json")
 
 def intraAuth(request):
     sid, uid = request.GET.get("_sid", False), request.GET.get("_uid", False)
@@ -37,7 +44,9 @@ def intraAuth(request):
 def admin_auth(request):
     netid = request.GET.get("user", False)
     user = get_object_or_404(User,netid=netid)
+    user.backend = 'django.contrib.auth.backends.ModelBackend'
     login(request,user)
+    return HttpResponseRedirect('/')
 
 def user_login(request):
     return HttpResponseRedirect('https://www.ulb.ac.be/commons/intranet?_prt=ulb:facultes:sciences:p402&_ssl=on&_appl=http://'+request.META['HTTP_HOST']+'/user/auth&_prtm=redirect')
