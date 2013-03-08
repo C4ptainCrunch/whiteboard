@@ -95,6 +95,7 @@ class Node(PolymorphicModel):
         """
         Yields the node's childrens by depth-first search
         """
+        # TODO : add some backtracking to prevent going twice in some places
         yield self
         for child in self.childrens():
             for node in child.childrens_iterator():
