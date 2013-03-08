@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     (r'^category/', include('graph.urls')),
     (r'^thread/', include('agora.urls')),
     (r'^course/', include('course.urls')),
-    (r'^/?$', 'whiteboard.views.redir2graph'),
+    (r'^/?$', 'whiteboard.views.index'),
     # Examples:
     # url(r'^$', 'whiteboard.views.home', name='home'),
     # url(r'^whiteboard/', include('whiteboard.foo.urls')),
