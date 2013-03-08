@@ -1,14 +1,17 @@
-{% extends "layout.haml" %}
+{% extends "box.haml" %}
+
+{% block additional_class %}thread{% endblock %}
+
+{% block header %}
+=thread.name
+{% endblock %}
 
 {% block content %}
-    .thread.box
-        .header
-            %a.fold{'href':'#'} +
-            =thread.name
-        .content
-            -for message in message_list
-                {% include "message.haml" %}
-        .footer
-            -for kw in keywords
-                %a.kwref{'href': '/keywords/{{kw.pk}}/related'}= kw.name
+-for message in message_list
+    {% include "message.haml" %}
+{% endblock %}
+
+{% block footer %}
+-for kw in keywords
+    %a.kwref{'href': '/keywords/{{kw.pk}}/related'}= kw.name
 {% endblock %}
