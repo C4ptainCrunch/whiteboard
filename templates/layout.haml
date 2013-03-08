@@ -3,10 +3,22 @@
     %head
         %title {% block title %}P402::Witheboard{% endblock %}
         %link{'rel':'stylesheet', 'href':'/static/base.css', 'type':'text/css'}
+        %script{'src':'//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'}
+		%script{'src':'//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js'}
+		%meta{'name':'generator', 'content':'python'}
     %body
+        :javascript
+            $(document).ready(function(){
+                var selector = $('.fold');
+                selector.click(function(event){
+                    $(event.target).closest('.box').find('.content').first().slideToggle('fast');
+                });
+            });
         #header
             #logo 
-                %a{'href':'/', 'title':'Accueil'} P402
+                %a{'href':'/', 'title':'Accueil'} 
+                    P402 
+                    %em &laquo;Whiteboard&raquo;
             #userinfo
         #content
             {% block content %}
