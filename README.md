@@ -1,6 +1,12 @@
 Bring back real collaboration between students ! Once more !
 
 #Development notes
+## Additionnal packages
+In order to render the graph to an image, you need the graphviz package
+	
+	apt-get install graphviz #Debian & sons
+	port install graphviz    #OSX with MacPorts
+
 ## Installation
 
 	virtualenv --distribute --no-site-packages ve
@@ -39,14 +45,14 @@ or accessing an entire resource.
 
 	GET /graph/{nodeid}.json
 
-This will return something like this (Could have much more optional fields):
+This will return something like this:
 
 	{
         'id' : int,
         'name' : str,
         'type' : str,
-        'children' : list[{'id':int, 'name':str, 'type':str}, ...],
-        ...
+        'children' : list[{'id':int, 'name':str, 'type':str, 'url':str}, ...],
+		'url' : str
     }
 
 ### Retrieve only basical informations
@@ -55,4 +61,17 @@ This will return something like this (Could have much more optional fields):
 
 Will return
 
-	{'id':int, 'name':string, 'type':string}
+	{'id':int, 'name':string, 'type':string, 'url':string}
+
+## Accessing full objects
+### build an URL
+The URL scheme is:
+	
+	/{nodetype}/{nodeid}[/method][.json|html]
+
+You can see valid urls with 
+	
+	/graph/nodeid/short.json['url'].
+
+If format is ommited, the format response is determined by the request headers. 
+It's json if the request was issued with an XHR, otherwise it's html.
