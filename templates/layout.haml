@@ -2,10 +2,11 @@
 %html
     %head
         %title {% block title %}P402::Witheboard{% endblock %}
+        %link{'rel':'stylesheet', 'href':'/static/base.css', 'type':'text/css'}
     %body
         #header
             #logo 
-                %a{'href':'/'} P402
+                %a{'href':'/', 'title':'Accueil'} P402
             #userinfo
         #content
             {% block content %}

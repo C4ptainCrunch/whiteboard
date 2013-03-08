@@ -5,6 +5,9 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+#Where we are, for portabilty reasons
+WHITEBOARD_ROOT = os.path.dirname(os.path.dirname(__file__))
+
 ADMINS = (
     ('Titou', 'titouanchristophe@gmail.com'),
     ('Nikita', 'nikita.marchant@gmail.com'),
@@ -114,7 +117,6 @@ ROOT_URLCONF = 'whiteboard.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'whiteboard.wsgi.application'
 
-WHITEBOARD_ROOT = os.path.dirname(os.path.dirname(__file__))
 TEMPLATE_DIRS = (
     os.path.join(WHITEBOARD_ROOT, 'templates')
 )

@@ -1,6 +1,13 @@
-.course{'data-id': '{{course.pk}}'}
-    .name= course.name
-    .mnemonic= course.mnemonic
-    .teacher
-        %a{'href': 'mailto:{{course.teacher}}'}= course.teacher
-    .description= course.description
+{% extends "layout.haml" %}
+
+{% block content %}
+.course.box{'data-id': '{{course.pk}}'}
+    .header
+        .name= course.name
+        .mnemonic= course.mnemonic
+    .content
+        .teacher
+            Cours donné par 
+            %a{'href': 'mailto:{{course.teacher}}'}= course.teacher
+        .description= course.description
+{% endblock %}
