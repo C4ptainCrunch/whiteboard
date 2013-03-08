@@ -1,12 +1,13 @@
 {% extends "layout.haml" %}
 
 {% block content %}
-    .thread{'data-id': '{{thread.pk}}'}
-        .subject= thread.name
-        .keywords
-            - for kw in keywords
-                %a.kwref{'href': '/keywords/{{kw.pk}}/related'}= kw.name
+    .thread.box
+        .header
+            =thread.name
         .content
-            - for message in message_list
+            -for message in message_list
                 {% include "message.haml" %}
+        .footer
+            -for kw in keywords
+                %a.kwref{'href': '/keywords/{{kw.pk}}'}= kw.name
 {% endblock %}
