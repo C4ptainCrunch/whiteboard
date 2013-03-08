@@ -2,7 +2,7 @@
     .subject= thread.name
     .keywords
         - for kw in keywords
-            %a.kwref{'href': '/keywords/{{kw.pk}}'}
+            %a.kwref{'href': '/keywords/{{kw.pk}}/related'}= kw.name
     .content
         - for message in message_list
             {% include "message.haml" %}
