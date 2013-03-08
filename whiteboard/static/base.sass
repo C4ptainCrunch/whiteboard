@@ -1,12 +1,12 @@
 /*
-To render sass, use the Sass ruby gem 
-    gem install sass
-then
-    sass --watch [this file]
-    
-or use
-    http://sassrender.herokuapp.com/
-*/
+ * To render sass, use the Sass ruby gem 
+ *      gem install sass
+ *  then
+ *      sass --style compact --watch [this file]
+ *  
+ *  or use
+ *      http://sassrender.herokuapp.com/
+ */
 
 $blue1: #1e4995
 $white1 : #fdfcfe
@@ -22,8 +22,12 @@ $grey2: #ccc
     background-position: $position top
     background-image: url($icon_url)
 
+a
+    text-decoration: none
+
 body
     padding: 0px
+    margin: 0px
 
 .kwref
     background-color: $orange1
@@ -34,17 +38,23 @@ body
     &:hover
         background-color: darken($orange1, 10%)
 
-@each $nodetype in category, thread, course
+@each $nodetype in category, thread, course, message
     .#{$nodetype}
         @include iconize('ico/#{$nodetype}.png')
 
 .box
     padding-top: 20px
-    padding-bottom: 3px
+    padding-bottom: 10px
     background-color: $grey2
+    .fold
+        color: $grey1
     .header
         font-weight: bold
     .footer
+        width: 75%
+        margin-top: 3px
+        padding-top: 5px
+        border-top: dotted 1px $grey1
         font-size: 85%
     
 
@@ -53,11 +63,8 @@ body
     padding: 10px
     background-color: $blue1
     color: $white1
-    border-radius: 10px 10px 0px 0px
-    border: solid 1px $blue1
     a
         color: $white1
-        text-decoration: none
     #logo
         width: 30%
         font-size: 200%
