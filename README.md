@@ -37,7 +37,7 @@ or accessing an entire resource.
 
 ### Retrieve a node in the graph
 
-	GET /graph/{nodeid}
+	GET /graph/{nodeid}.json
 
 This will return something like this (Could have much more optional fields):
 
@@ -51,7 +51,7 @@ This will return something like this (Could have much more optional fields):
 
 ### Retrieve only basical informations
 
-	GET /graph/{nodeid}/short
+	GET /graph/{nodeid}/short.json
 
 Will return
 
