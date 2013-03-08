@@ -135,9 +135,9 @@ INSTALLED_APPS = (
     'whiteboard',
     'keywords',
     'graph',
-    'users'
+    'users',
     'agora',
-    'course'
+    'course',
 )
 
 AUTH_USER_MODEL = 'users.User'
