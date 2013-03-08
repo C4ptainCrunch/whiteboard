@@ -4,4 +4,3 @@ pytz
 dateutils
 beautifulsoup4
 Hamlpy
-# django-haml
