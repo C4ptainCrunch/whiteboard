@@ -10,7 +10,7 @@ Bring back real collaboration between students ! Once more !
 
 ## Run in development
 
-	./quicktest.sh
+	./run
 
 ## Create a user without using the netid api
 
