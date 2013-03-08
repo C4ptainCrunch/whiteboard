@@ -1,3 +1,6 @@
+#app
+graph/static/graph.svg
+
 #development
 db.sql
 
