@@ -1,16 +1,14 @@
-{% extends "layout.haml" %}
-
+{% extends "box.haml" %}
+{% block additional_class %}course{% endblock %}
+{% block header %}
+    .name= course.name
+    .mnemonic= course.mnemonic
+{% endblock %}
 {% block content %}
-.course.box{'data-id': '{{course.pk}}'}
-    .header
-        %a.fold{'href':'#'} +
-        .name= course.name
-        .mnemonic= course.mnemonic
-    .content
-        .teacher
-            Cours donné par 
-            %a{'href': 'mailto:{{course.teacher}}'}= course.teacher
-        .description
-            :markdown
-                {{course.description}}
+    .teacher
+        Cours donné par 
+        %a{'href': 'mailto:{{course.teacher}}'}= course.teacher
+    .description
+        :markdown
+            {{course.description}}
 {% endblock %}

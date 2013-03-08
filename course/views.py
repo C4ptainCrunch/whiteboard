@@ -7,7 +7,7 @@ import json
 
 def response(format, course):
     if format and format.lower() == 'html':
-        template = loader.get_template('course.haml')
+        template = loader.get_template('courseIndex.haml')
         return HttpResponse(template.render(Context({'course':course})))
     else:
         obj = {
