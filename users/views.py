@@ -53,6 +53,7 @@ def admin_auth(request,netid):
     return HttpResponseRedirect('/user')
 
 def user_login(request):
+    # TODO : add "next" GET parameter to the url
     return HttpResponseRedirect('https://www.ulb.ac.be/commons/intranet?_prt=ulb:facultes:sciences:p402&_ssl=on&_appl=http://'+request.META['HTTP_HOST']+'/user/auth&_prtm=redirect')
 
 def create_user(netid, last_name, first_name, email, xml, birth, identites):

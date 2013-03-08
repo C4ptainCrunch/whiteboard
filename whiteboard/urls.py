@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     (r'^graph/', include('graph.urls')),
     (r'^category/', include('graph.urls')),
     (r'^thread/', include('agora.urls')),
+    (r'^user/', include('users.urls')),
     (r'^course/', include('course.urls')),
     (r'^/?$', 'whiteboard.views.redir2graph'),
     # Examples:
