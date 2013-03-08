@@ -82,6 +82,33 @@ class Node(PolymorphicModel):
         parent._children.remove(self)
         parent.save()
 
+    def childrens_tree(self):
+        """
+        Returns a tree of the node's  childrens by depth-first search
+        """
+        tree = {}
+        for node in self.children.all():
+            tree[node] = f.descendants_tree()
+        return tree
+
+    def childrens_iterator(self):
+        """
+        Yields the node's childrens by depth-first search
+        """
+        yield self
+        for child in self.childrens():
+            for node in child.childrens_iterator():
+                yield node
+
+    def is_child(self,other):
+        """
+        Retruns True if other is an acnestor of self. Otherwise False
+        """
+        return self in  other.childrens_iterator()
+
+    def distance(self, target):
+        return len(self.path(target))
+
 
 
 
