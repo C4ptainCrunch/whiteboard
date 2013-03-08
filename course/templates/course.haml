@@ -3,11 +3,14 @@
 {% block content %}
 .course.box{'data-id': '{{course.pk}}'}
     .header
+        %a.fold{'href':'#'} +
         .name= course.name
         .mnemonic= course.mnemonic
     .content
         .teacher
             Cours donné par 
             %a{'href': 'mailto:{{course.teacher}}'}= course.teacher
-        .description= course.description
+        .description
+            :markdown
+                {{course.description}}
 {% endblock %}
