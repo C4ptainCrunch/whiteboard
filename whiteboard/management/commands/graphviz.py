@@ -9,14 +9,14 @@ class Command(BaseCommand):
         'Course': 'gold',
         'Thread': 'coral'
     }
-    
+
     help = """
     Export the main graph to graphviz format
     see also: http://www.graphviz.org/Documentation.php
     Use in combination with dot (or circo, neato, twopi, ...)
     manage.py graphviz | dot -Tpng > graph.png
     """
-    
+
     option_list = BaseCommand.option_list + (
         make_option('-u', '--urlprefix',
             action='store',
@@ -25,7 +25,7 @@ class Command(BaseCommand):
             help='URL prefix for clickable nodes'
         ),
     )
-    
+
     def handle(self, *args, **options):
         f = self.stdout
         f.write('digraph P402 {\n')
@@ -33,9 +33,9 @@ class Command(BaseCommand):
             color = self.COLORS.get(node.classBasename(), self.COLORS['Node'])
             url = node.canonic_url() #options['urlprefix'] + '/graph/%d'%(node.pk)
             f.write('\t%d [style=filled label="%s" fillcolor=%s URL="%s"]\n'%(node.pk, str(node.name), color, url))
-            for child in node.children():
+            for child in node.childrens():
                 f.write('\t%d -> %d;\n'%(node.pk, child.id))
-        
+
         #Color legend
         f.write('edge [style=invis];\n')
         for className in self.COLORS:
