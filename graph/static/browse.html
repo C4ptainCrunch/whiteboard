@@ -25,7 +25,7 @@
 		var mknoderef = function(node){
 			var klass = 'noderef';
 			if ('type' in node) klass += ' '+node['type'].toLowerCase();
-			return '<a href="#" class="'+klass+'" data-id="'+node['id']+'">'+node['name']+'</a>';
+			return '<a href="#'+node['url']+'" class="'+klass+'" data-id="'+node['id']+'">'+node['name']+'</a>';
 		};
 		
 		/* Callback for noderefs clicks */
@@ -88,7 +88,9 @@
 					value = data[key]
 					if (key != 'name'){
 						/* Handle keyword expansion */
-						if (key == 'keywords'){
+						if (key == "url"){
+							value = '<a href="'+value+'">'+value+'</a>'
+						} else if (key == 'keywords'){
 							var str = '';
 							var kw;
 							for (kwi in value){

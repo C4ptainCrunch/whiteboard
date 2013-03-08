@@ -4,7 +4,7 @@ from django.http import HttpResponse
 
 import json
 
-def getNode(req, nodeid):
+def getNode(req, nodeid, format):
     """
     GET /graph/<nodeid>
     => {
@@ -15,6 +15,8 @@ def getNode(req, nodeid):
         ... 
     }
     """
+    if not format or len(format)==0:
+        format = 'json' if req.is_ajax() else 'html'
     node = get_object_or_404(Node, pk=nodeid)
     return HttpResponse(json.dumps(node.to_dict(True)), content_type="application/json")
 
@@ -30,6 +32,8 @@ def getNodeShort(req, nodeid):
         ... 
     }
     """
+    if not format or len(format)==0:
+        format = 'json' if req.is_ajax() else 'html'
     node = get_object_or_404(Node, pk=nodeid)
     return HttpResponse(json.dumps(node.to_dict(False)), content_type="application/json")
 
