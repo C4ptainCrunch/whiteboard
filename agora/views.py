@@ -44,7 +44,7 @@ def thread(req, nodeid, format):
     thread = get_object_or_404(Thread, pk=nodeid)
     return response(format, thread)
 
-def add_thread(request,parentid):
+def create(request,parentid):
     if request.method == 'POST':
         form = TreadForm(request.POST)
         if form.is_valid():

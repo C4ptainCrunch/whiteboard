@@ -13,6 +13,9 @@ urlpatterns = patterns('',
     (r'^user/', include('users.urls')),
     (r'^course/', include('course.urls')),
     (r'^/?$', 'whiteboard.views.index'),
+
+    (r'^\w+/(?P<id>\d+)/tags$', 'graph.views.list_tags'),
+    (r'^\w+/(?P<parentid>\d+)/add/(?P<addtype>\w+)$', 'graph.views.dispatch'),
     # Examples:
     # url(r'^$', 'whiteboard.views.home', name='home'),
     # url(r'^whiteboard/', include('whiteboard.foo.urls')),

@@ -8,11 +8,11 @@ def getNode(req, nodeid, format):
     """
     GET /graph/<nodeid>
     => {
-        'id' : int, 
-        'name' : str, 
-        'type' : str, 
-        'children' : list[{'id':int, 'name':str, 'type':str}, ...], 
-        ... 
+        'id' : int,
+        'name' : str,
+        'type' : str,
+        'children' : list[{'id':int, 'name':str, 'type':str}, ...],
+        ...
     }
     """
     if not format or len(format)==0:
@@ -25,11 +25,11 @@ def getNodeShort(req, nodeid):
     """
     GET /graph/<nodeid>
     => {
-        'id' : int, 
-        'name' : str, 
-        'type' : str, 
-        'children' : list[{'id':int, 'name':str, 'type':str}, ...], 
-        ... 
+        'id' : int,
+        'name' : str,
+        'type' : str,
+        'children' : list[{'id':int, 'name':str, 'type':str}, ...],
+        ...
     }
     """
     if not format or len(format)==0:
@@ -37,3 +37,26 @@ def getNodeShort(req, nodeid):
     node = get_object_or_404(Node, pk=nodeid)
     return HttpResponse(json.dumps(node.to_dict(False)), content_type="application/json")
 
+def list_tags(request, id):
+    node = Node.objects.get(id=id)
+    keys = [
+                {'id':kw.pk, 'name':kw.name} for kw in node.keywords.all()
+            ]
+    return HttpResponse(json.dumps(keys), content_type="application/json")
+
+def dispatch(request,parentid,addtype):
+    typeToModel = {
+        'thread' : 'agora.views',
+        'category' : 'graph.views',
+        'course' : 'course.views',
+    }
+    if not typeToModel[addtype]:
+        raise # TODO : make this a 404
+    try:
+        # TODO : is this a security hole ?
+        a = __import__(typeToModel[addtype],fromlist='create')
+        # same as "from addtype.models import create"
+        print(a)
+    except ImportError:
+        raise # TODO : make this a 404
+    return a.create(request,parentid)
