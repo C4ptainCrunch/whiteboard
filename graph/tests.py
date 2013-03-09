@@ -6,9 +6,17 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-from graph.models import Node, Course, Category
+from course.models import Course
+from graph.models import Node, Category
 
 class SimpleTest(TestCase):
+    def test_basename(self):
+        n = Node.objects.create()
+        pk = n.pk
+        self.assertEqual('Node', n.classBasename())
+        self.assertEqual('/node/'+str(pk), n.canonic_url())
+    
+    
     def test_graph(self):
         """Basic graph manipulation"""
         a, b, c = (Node.objects.create() for i in range(3))
@@ -16,7 +24,7 @@ class SimpleTest(TestCase):
         
         self.assertTrue(a.attach(c), 'A->B->C && A->C')
         
-        self.assertIn(b, a.children(), 'Graph walk')
+        self.assertIn(b, a.childrens(), 'Graph walk')
         self.assertIn(a, b.ancestors(), 'Reverse graph walk')
         self.assertFalse(c.attach(a), 'Cycle')
         self.assertTrue(c.attach(a, False), 'Force cyclic attach')
