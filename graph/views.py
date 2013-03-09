@@ -54,9 +54,9 @@ def dispatch(request,parentid,addtype):
         raise # TODO : make this a 404
     try:
         # TODO : is this a security hole ?
-        a = __import__(typeToModel[addtype],fromlist='create')
+        module = __import__(typeToModel[addtype],fromlist='create')
         # same as "from addtype.models import create"
         print(a)
     except ImportError:
         raise # TODO : make this a 404
-    return a.create(request,parentid)
+    return module.create(request,parentid)
