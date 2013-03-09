@@ -127,3 +127,11 @@ class Category(Node):
 class Taggable(Node):
     """An abstract taggable node. Taggable nodes have keywords."""
     keywords = models.ManyToManyField(Keyword)
+
+    @staticmethod
+    def KW(name):
+        existing, created = Keyword.objects.get_or_create(name=name.lower())
+        return existing if existing else created
+
+    def add_keyword(self,tag):
+        self.keywords.add(self.KW(tag))

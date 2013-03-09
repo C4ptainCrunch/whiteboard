@@ -1,7 +1,9 @@
-from agora.models import Message, Thread
+from graph.models import Node
+from agora.models import Message, Thread, TreadForm
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader
+from django.shortcuts import render
 import json
 
 
@@ -9,8 +11,8 @@ def response(format, thread):
     if format and format.lower() == 'html':
         template = loader.get_template('threadIndex.haml')
         return HttpResponse(template.render(Context({
-            'thread':thread, 
-            'keywords': thread.keywords.all(), 
+            'thread':thread,
+            'keywords': thread.keywords.all(),
             'message_list':thread.message_set.all().order_by('index')
         })))
     else:
@@ -41,4 +43,23 @@ def thread(req, nodeid, format):
         format = 'json' if req.is_ajax() else 'html'
     thread = get_object_or_404(Thread, pk=nodeid)
     return response(format, thread)
+
+def add_thread(request,nodeid):
+    if request.method == 'POST':
+        form = TreadForm(request.POST)
+        if form.is_valid():
+            thread = Thread(name=form.cleaned_data['subject'])
+            thread.save()
+            for tag in form.cleaned_data['tags'].split(','):
+                if tag:
+                    thread.add_keyword(tag.strip())
+            parent = Node.objects.get(id=nodeid)
+            parent.attach(thread, acyclic_check=False)
+            return HttpResponseRedirect('/thread/'+str(thread.id)) # Redirect after POST
+    else:
+        form = TreadForm()
+
+    return render(request, 'add_tread.html', {
+        'form': form,
+    })
 
