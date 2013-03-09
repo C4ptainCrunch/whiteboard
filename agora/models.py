@@ -39,7 +39,7 @@ from django import forms
 
 class TreadForm(forms.Form):
     subject = forms.CharField(max_length=100)
-    tags = forms.CharField()
+    tags = forms.CharField(required=False)
 
 class MessageForm(forms.Form):
     text = forms.CharField()

@@ -44,7 +44,7 @@ def thread(req, nodeid, format):
     thread = get_object_or_404(Thread, pk=nodeid)
     return response(format, thread)
 
-def add_thread(request,nodeid):
+def add_thread(request,parentid):
     if request.method == 'POST':
         form = TreadForm(request.POST)
         if form.is_valid():
@@ -53,13 +53,29 @@ def add_thread(request,nodeid):
             for tag in form.cleaned_data['tags'].split(','):
                 if tag:
                     thread.add_keyword(tag.strip())
-            parent = Node.objects.get(id=nodeid)
+            parent = Node.objects.get(id=parentid)
             parent.attach(thread, acyclic_check=False)
             return HttpResponseRedirect('/thread/'+str(thread.id)) # Redirect after POST
     else:
         form = TreadForm()
 
     return render(request, 'add_tread.html', {
+        'form': form,
+    })
+
+def edit_thread(request,nodeid):
+    if request.method == 'POST':
+        form = TreadForm(request.POST)
+        if form.is_valid():
+            thread = Thread.objects.get(id=nodeid)
+            thread.name = form.cleaned_data['subject']
+            thread.save()
+            return HttpResponseRedirect('/thread/'+str(thread.id)) # Redirect after POST
+    else:
+        thread = Thread.objects.get(id=nodeid)
+        form = TreadForm(initial={'subject': thread.name})
+
+    return render(request, 'edit_thread.haml', {
         'form': form,
     })
 
