@@ -2,6 +2,7 @@ from django.db import models
 from polymorphic import PolymorphicModel
 from datetime import datetime
 from keywords.models import Keyword
+import re
 
 class Node(PolymorphicModel):
     """Base class for all P402 objects"""
@@ -10,12 +11,8 @@ class Node(PolymorphicModel):
 
     def classBasename(self):
         """Return the class name without modules prefix"""
-        klass = str(type(self)) # "<class 'foo'>"
-        j = len(klass)-2
-        i = j
-        while i>0 and klass[i-1]!='.':
-            i -= 1
-        return klass[i:j]
+        klass = str(type(self)) # "<class 'foo.bar'>"
+        return re.sub(r'.*[\.\']([^\.]+)\'>$', r'\1', klass)
 
 
     def canonic_url(self):
@@ -100,7 +97,7 @@ class Node(PolymorphicModel):
         for child in self.childrens():
             for node in child.childrens_iterator():
                 yield node
-
+                
     def is_child(self,other):
         """
         Retruns True if other is an acnestor of self. Otherwise False
