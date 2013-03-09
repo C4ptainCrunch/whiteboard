@@ -59,7 +59,7 @@ def add_thread(request,parentid):
     else:
         form = TreadForm()
 
-    return render(request, 'add_tread.html', {
+    return render(request, 'add_thread.html', {
         'form': form,
     })
 

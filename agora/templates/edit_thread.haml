@@ -1,0 +1,7 @@
+<form action="" method="post">{% csrf_token %}
+{{ form.non_field_errors }}
+{{ form.subject.errors }}
+<label for="id_subject">Thread subject:</label>
+        {{ form.subject }}
+<input type="submit" value="Submit" />
+</form>
