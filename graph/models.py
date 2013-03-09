@@ -127,8 +127,29 @@ class Taggable(Node):
 
     @staticmethod
     def KW(name):
+        """Simply create or get a keyword"""
+        #Keywords are always lowercased
         existing, created = Keyword.objects.get_or_create(name=name.lower())
         return existing if existing else created
-
-    def add_keyword(self,tag):
-        self.keywords.add(self.KW(tag))
+    
+    def add_keyword(self, *tags):
+        """Add a keyword by directly passing its name"""
+        for tag in tags:
+            self.keywords.add(self.KW(tag))
+    
+    def related_list(self):
+        """
+        Return a list of taggable objects that share some keywords with self.
+        """
+        res = []
+        for kw in self.keywords.all():
+            for node in kw.taggable_set.all():
+                if node in res:
+                    res.remove(node)
+                    res.insert(0, node)
+                else:
+                    res.append(node)
+        return res
+                    
+    related = related_list
+    
