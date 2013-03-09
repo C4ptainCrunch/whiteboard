@@ -1,62 +1,27 @@
+/* To render sass, use the Sass ruby gem  gem install sass then sass --style compact --watch [this file]  or use http://sassrender.herokuapp.com/ */
 /* 20x20 icon on left */
-body {
-  padding: 0px; }
+a { text-decoration: none; }
 
-.kwref {
-  background-color: #e1b66a;
-  padding: 2px 7px 2px 7px;
-  border-radius: 10px;
-  color: #333333;
-  text-decoration: none; }
-  .kwref:hover {
-    background-color: #d8a140; }
+body { padding: 0px; margin: 0px; }
 
-.category {
-  padding-left: 22px;
-  background-repeat: no-repeat;
-  background-size: 20px 20px;
-  background-position: left top;
-  background-image: url("ico/category.png"); }
+.kwref { background-color: #e1b66a; padding: 2px 7px 2px 7px; border-radius: 10px; color: #333333; text-decoration: none; }
+.kwref:hover { background-color: #d8a140; }
 
-.thread {
-  padding-left: 22px;
-  background-repeat: no-repeat;
-  background-size: 20px 20px;
-  background-position: left top;
-  background-image: url("ico/thread.png"); }
+.category { padding-left: 22px; background-repeat: no-repeat; background-size: 20px 20px; background-position: left top; background-image: url("ico/category.png"); }
 
-.course {
-  padding-left: 22px;
-  background-repeat: no-repeat;
-  background-size: 20px 20px;
-  background-position: left top;
-  background-image: url("ico/course.png"); }
+.thread { padding-left: 22px; background-repeat: no-repeat; background-size: 20px 20px; background-position: left top; background-image: url("ico/thread.png"); }
 
-.box {
-  padding-top: 20px;
-  padding-bottom: 3px;
-  background-color: #cccccc; }
-  .box .header {
-    font-weight: bold; }
-  .box .footer {
-    font-size: 85%; }
+.course { padding-left: 22px; background-repeat: no-repeat; background-size: 20px 20px; background-position: left top; background-image: url("ico/course.png"); }
 
-#header {
-  margin: 0px;
-  padding: 10px;
-  background-color: #1e4995;
-  color: #fdfcfe;
-  border-radius: 10px 10px 0px 0px;
-  border: solid 1px #1e4995; }
-  #header a {
-    color: #fdfcfe;
-    text-decoration: none; }
-  #header #logo {
-    width: 30%;
-    font-size: 200%;
-    font-weight: bolder; }
-    #header #logo:hover {
-      color: #e4d6f1; }
-  #header #userinfo {
-    text-align: right;
-    width: 30%; }
+.message { padding-left: 22px; background-repeat: no-repeat; background-size: 20px 20px; background-position: left top; background-image: url("ico/message.png"); }
+
+.box { padding-top: 20px; margin-bottom: 10px; background-color: #cccccc; width: 75%; border-radius: 0px 0px 5px 0px; border: dashed 1px #e6e6e6; }
+.box .fold { color: #333333; }
+.box .header { font-weight: bold; }
+.box .footer { margin-top: 3px; padding-top: 5px; padding-bottom: 5px; border-top: dotted 1px #333333; font-size: 85%; }
+
+#header { margin: 0px; padding: 10px; background-color: #1e4995; color: #fdfcfe; }
+#header a { color: #fdfcfe; }
+#header #logo { width: 30%; font-size: 200%; font-weight: bolder; }
+#header #logo:hover { color: #e4d6f1; }
+#header #userinfo { text-align: right; width: 30%; }

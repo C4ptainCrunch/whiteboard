@@ -7,7 +7,7 @@ import json
 
 def response(format, thread):
     if format and format.lower() == 'html':
-        template = loader.get_template('thread.haml')
+        template = loader.get_template('threadIndex.haml')
         return HttpResponse(template.render(Context({
             'thread':thread, 
             'keywords': thread.keywords.all(), 

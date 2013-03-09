@@ -1,0 +1,9 @@
+{% extends "layout.haml" %}
+
+{% block content %}
+    :javascript
+        $(document).ready(function(){
+           $('svg').attr('width', $(window).width()-30);
+        });
+    {% include "graph.svg" %}
+{% endblock %}

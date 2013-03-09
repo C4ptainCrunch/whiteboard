@@ -1,3 +1,6 @@
+#sass
+.sass-cache
+
 #app
 graph/static/graph.svg
 

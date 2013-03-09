@@ -1,0 +1,10 @@
+.box{'class':'{% block additional_class %}{% endblock %}'}
+    .barup
+    .header
+        %a.fold{'href':'#', 'title':'Replier'} +
+        {% block header %}{% endblock %}
+    .content
+        {% block content %}{% endblock %}
+    .footer
+        {% block footer %}{% endblock %}
+    .bardown

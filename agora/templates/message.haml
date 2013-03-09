@@ -1,4 +1,6 @@
-.message.box
-    .content= message.text
-    .footer= message.posted
+{% extends "box.haml" %}
+
+{% block additional_class %}message{% endblock %}
+{% block content %}{{message.text}}{% endblock %}
+{% block footer %}{{message.posted}}{% endblock %}
     
