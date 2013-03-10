@@ -4,6 +4,8 @@
 
 {% block header %}
 =thread.name
+%a{'href':'{{thread.canonic_url}}/edit'}
+    %img.action{'src':'/static/ico/edit.png', 'alt':'edit'}
 {% endblock %}
 
 {% block content %}
@@ -12,6 +14,10 @@
 {% endblock %}
 
 {% block footer %}
+%form{'method':'post', 'action':'{{thread.canonic_url}}/reply'}
+    {% csrf_token %}
+    {{ form.as_p }}
+    %input{'type':'submit'}
 -for kw in keywords
     %a.kwref{'href': '/keywords/{{kw.pk}}/related'}= kw.name
 {% endblock %}

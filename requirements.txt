@@ -1,4 +1,6 @@
+-i http://pypi.urlab.be/simple
 Django==1.5
+django-extensions   #Some useful tools
 django_polymorphic
 pytz
 dateutils

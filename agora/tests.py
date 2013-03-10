@@ -6,11 +6,14 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-from agora.models import Thread
+from agora.models import Thread, CannotHaveChildren
 
 T = Thread.objects.create
 
 class SimpleTest(TestCase):
-    def test_attach(self):
+    def try_attach_node_to_thread(self):
         t = T(name="Thread Parent")
-        self.assertRaises(Thread.CannotHaveChildren, t.attach(T(name="Thread enfant")))
+        t.attach(T(name="Thread enfant"))
+    
+    def test_attach(self):
+        self.assertRaises(CannotHaveChildren, self.try_attach_node_to_thread)

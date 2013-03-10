@@ -1,9 +1,11 @@
 {% extends "box.haml" %}
 {% block additional_class %}course{% endblock %}
+
 {% block header %}
     .name= course.name
     .mnemonic= course.mnemonic
 {% endblock %}
+
 {% block content %}
     .teacher
         Cours donné par 
@@ -11,4 +13,12 @@
     .description
         :markdown
             {{course.description}}
+    %ul.discussions
+        -for thread in discussions
+            %li
+                %a{'href': '{{thread.canonic_url}}'}= thread.name
+{% endblock %}
+
+{% block footer %}
+    %a{'href':'{{course.canonic_url}}/add/thread'} Commencer une discussion...
 {% endblock %}

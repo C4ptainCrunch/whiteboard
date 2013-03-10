@@ -2,6 +2,15 @@ from django.db import models
 from polymorphic import PolymorphicModel
 from datetime import datetime
 from keywords.models import Keyword
+import re
+
+class CannotHaveChildren(Exception):
+    """Exception raised by graph nodes that doesn't accept children"""
+    def __init__(self, node):
+        msg = node.classBasename()+'#'+str(node.pk)+' can\'t have children'
+        Exception.__init__(self, msg)
+    
+
 
 class Node(PolymorphicModel):
     """Base class for all P402 objects"""
@@ -10,28 +19,24 @@ class Node(PolymorphicModel):
 
     def classBasename(self):
         """Return the class name without modules prefix"""
-        klass = str(type(self)) # "<class 'foo'>"
-        j = len(klass)-2
-        i = j
-        while i>0 and klass[i-1]!='.':
-            i -= 1
-        return klass[i:j]
+        klass = str(type(self)) # "<class 'foo.bar'>"
+        return re.sub(r'.*[\.\']([^\.]+)\'>$', r'\1', klass)
 
-
+    
+    @property
     def canonic_url(self):
         return '/'+self.classBasename().lower()+'/'+str(self.pk)
 
 
     def to_dict(self, with_children=False):
         res = {'id':self.pk, 'name':str(self.name), 'type':self.classBasename()}
-        res['url'] = self.canonic_url()
+        res['url'] = self.canonic_url
         if with_children:
             res['children'] = []
             for child in self.childrens():
                 res['children'].append(child.to_dict(False))
         return res
-
-
+    
     def __repr__(self):
         return '<%s:%d "%s">'%(self.classBasename(), self.pk, self.name)
 
@@ -100,7 +105,7 @@ class Node(PolymorphicModel):
         for child in self.childrens():
             for node in child.childrens_iterator():
                 yield node
-
+                
     def is_child(self,other):
         """
         Retruns True if other is an acnestor of self. Otherwise False
@@ -130,8 +135,29 @@ class Taggable(Node):
 
     @staticmethod
     def KW(name):
+        """Simply create or get a keyword"""
+        #Keywords are always lowercased
         existing, created = Keyword.objects.get_or_create(name=name.lower())
         return existing if existing else created
-
-    def add_keyword(self,tag):
-        self.keywords.add(self.KW(tag))
+    
+    def add_keyword(self, *tags):
+        """Add a keyword by directly passing its name"""
+        for tag in tags:
+            self.keywords.add(self.KW(tag))
+    
+    def related_list(self):
+        """
+        Return a list of taggable objects that share some keywords with self.
+        """
+        res = []
+        for kw in self.keywords.all():
+            for node in kw.taggable_set.all():
+                if node in res:
+                    res.remove(node)
+                    res.insert(0, node)
+                else:
+                    res.append(node)
+        return res
+                    
+    related = related_list
+    

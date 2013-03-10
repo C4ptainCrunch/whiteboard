@@ -1,3 +1,6 @@
+{% extends "layout.haml" %}
+
+{% block content %}
 <form action="" method="post">{% csrf_token %}
 {{ form.non_field_errors }}
 {{ form.subject.errors }}
@@ -5,3 +8,4 @@
         {{ form.subject }}
 <input type="submit" value="Submit" />
 </form>
+{% endblock %}
