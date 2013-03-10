@@ -36,15 +36,29 @@ class SimpleTest(TestCase):
     
     
     def test_tags(self):
-        a, b, c = (Taggable.objects.create() for i in range(3))
-        a.add_keyword('a', 'b', 'c')
-        b.add_keyword('a', 'b')
-        c.add_keyword('a')
+        """Playing with keywords"""
+        tagname = 'hoho'
+        k1 = Taggable.KW(tagname)
+        k2 = Taggable.KW(tagname)
+        self.assertEqual(k1, k2, 'Keyword equivalence')
+        k3 = Taggable.KW(tagname.upper())
+        self.assertEqual(k1, k3, 'Keyword equivalence')
+        k4 = Taggable.KW(tagname+'_')
+        self.assertNotEqual(k1, k4, 'Keyword without equivalence')
+        
+        a, b, c, d = (Taggable.objects.create() for i in range(4))
+        a.add_keyword('a', 'b', 'c', 'tag')
+        b.add_keyword('b', 'd')
+        c.add_keyword('a', 'c', 'tag')
+        d.add_keyword('d')
         
         related_to_a = a.related_list()
-        self.assertIn(b, related_to_a, 'A is linked to B')
-        self.assertIn(c, related_to_a, 'A is linked to C')
-        self.assertTrue(related_to_a.index(b)<related_to_a.index(c), 'Ordered by common keywords cardinal')
+        self.assertIn(b, related_to_a, 'A -- B')
+        self.assertIn(c, related_to_a, 'A -- C')
+        self.assertTrue(related_to_a.index(c)<related_to_a.index(b), 'Ordered by common keywords cardinal')
+        
+        self.assertNotIn(d, related_to_a, 'A -/- D')
+        self.assertIn(d, b.related_list(), 'B -- D')
     
     
     def test_polymorph(self):
