@@ -22,7 +22,8 @@ class Node(PolymorphicModel):
         klass = str(type(self)) # "<class 'foo.bar'>"
         return re.sub(r'.*[\.\']([^\.]+)\'>$', r'\1', klass)
 
-
+    
+    @property
     def canonic_url(self):
         return '/'+self.classBasename().lower()+'/'+str(self.pk)
 
@@ -35,8 +36,7 @@ class Node(PolymorphicModel):
             for child in self.childrens():
                 res['children'].append(child.to_dict(False))
         return res
-
-
+    
     def __repr__(self):
         return '<%s:%d "%s">'%(self.classBasename(), self.pk, self.name)
 
