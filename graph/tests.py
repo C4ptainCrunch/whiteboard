@@ -15,7 +15,7 @@ class SimpleTest(TestCase):
         n = Node.objects.create()
         pk = n.pk
         self.assertEqual('Node', n.classBasename(), 'Class basename')
-        self.assertEqual('/node/'+str(pk), n.canonic_url(), 'Canonic URL')
+        self.assertEqual('/node/'+str(pk), n.canonic_url, 'Canonic URL')
     
     
     def test_graph(self):
