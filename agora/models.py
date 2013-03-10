@@ -1,16 +1,11 @@
 from django.db import models
-from graph.models import Taggable
+from graph.models import Taggable, CannotHaveChildren
 from datetime import datetime
 
 class Thread(Taggable):
     """Discussion"""
-    class CannotHaveChildren(Exception):
-        def __init__(self):
-            Exception.__init__(self, 'For now, Thread objects could only be leafs in the graph')
-
-
-    def attach(self, other,*args,**kwargs):
-        raise self.CannotHaveChildren
+    def attach(self, *args, **kwargs):
+        raise CannotHaveChildren(self)
 
 
     def reply(self, **kwargs):

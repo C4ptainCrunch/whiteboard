@@ -4,6 +4,14 @@ from datetime import datetime
 from keywords.models import Keyword
 import re
 
+class CannotHaveChildren(Exception):
+    """Exception raised by graph nodes that doesn't accept children"""
+    def __init__(self, node):
+        msg = node.classBasename()+'#'+str(node.pk)+' can\'t have children'
+        Exception.__init__(self, msg)
+    
+
+
 class Node(PolymorphicModel):
     """Base class for all P402 objects"""
     name = models.CharField(max_length=160)
